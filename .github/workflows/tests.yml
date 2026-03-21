@@ -1,0 +1,27 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - develop
+    tags:
+      - '**'
+
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check if the repository is private
+        run: |
+          if ${{ github.event.repository.private }}; then
+            echo "Repository is private, skipping tests."
+            exit 0
+          fi
+        shell: bash
+
+      - name: Install dependencies only (no tests)
+        run: npm install
