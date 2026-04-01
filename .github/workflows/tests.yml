@@ -11,9 +11,11 @@ on:
 jobs:
   tests:
     runs-on: ubuntu-latest
+    env:
+      FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
     steps:
       - name: Checkout repository
-        uses: actions/checkout@v4
+        uses: actions/checkout@v5
 
       - name: Check if the repository is private
         run: |
@@ -23,5 +25,12 @@ jobs:
           fi
         shell: bash
 
-      - name: Install dependencies only (no tests)
-        run: npm install
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'  # укажите нужную версию Node.js (18, 20, 22)
+          cache: 'npm'
+          cache-dependency-path: '**/package-lock.json'
+
+      - name: Install dependencies
+        run:
