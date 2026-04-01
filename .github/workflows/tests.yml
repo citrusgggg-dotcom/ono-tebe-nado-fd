@@ -28,9 +28,12 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'  # укажите нужную версию Node.js (18, 20, 22)
+          node-version: '22'  # Обновлена версия Node.js
           cache: 'npm'
           cache-dependency-path: '**/package-lock.json'
 
       - name: Install dependencies
-        run:
+        run: npm ci  # Используем npm ci для воспроизводимой установки
+
+      - name: Run tests
+        run: npm test
